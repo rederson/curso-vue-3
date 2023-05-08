@@ -1,55 +1,40 @@
 <template>
-<div class="">
-  
-  <h2>App</h2>
-  {{ count }}
-{{ userName }}
+  <h2>Lista de Users</h2>
 
-<ul>
-  <li v-for="user in users">{{ user.firstName }} - {{ user.age }}</li>
-</ul>
-
-
-<button v-on:click="showHeader = !showHeader" >Toggle header</button>
-
-
-<router-link to="/">Home</router-link>
-<router-link to="/about">About</router-link>
-
-</div>
-<div>
-  
-</div>
-  <router-view></router-view>
-
-
+  <ul>
+    <li v-for="user in users" :key="user.id">{{ user.firstName }}</li>
+  </ul>
+ 
 </template>
 
-<script setup>
+<script> 
+import http from '@/services/http.js';
 
-import { onMounted, onUpdated, reactive, ref } from 'vue';
+export default {
+  
+ data(){
+  return {
+    users: []
 
-const count = ref(0);
-const userName =  ref('Alexandre');
-
-const users = reactive([
-  {
-    firstName:'Alexandre',
-    age: 40
-  },
-  {
-    firstName:'Maria',
-    age: 40
   }
-])
+ },
 
-onMounted(()=>{
-  console.log('mounted');
-})
-onUpdated(()=> {
-  console.log('upadate');
-})
+ async mounted() {
+  try {
+ const {data} = await http.get('http://localhost:8000/api/users');
+ //console.log(data);
+ this.users = data;
+  } catch (error) {
+       console.log(error);
+  }
+ },
+ updated(){
+  console.log('upadated');
+ }
 
+}
 </script>
-<style>
+
+<style scoped>
+
 </style>
