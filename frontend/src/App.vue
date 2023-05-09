@@ -2,9 +2,11 @@
 
 import http from '@/services/http.js';
 
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 
 let users = reactive({users:[]});
+const imageSrc = ref('https://picsum.photos/200/300');
+const is_admin = ref(false);
 
 onMounted( async ()=>{
   try {
@@ -18,6 +20,10 @@ onMounted( async ()=>{
 </script>
 <template>
   <h2>Lista de users</h2>
+  <hr />
+  
+  <img :src="imageSrc" alt="" class="my-default-class" :class="{'my-class':is_admin,'my-other-class':!is_admin}" />
+
   <ul>
     <li v-for="user in users.users" :key="user.id">{{ user.firstName }}</li>
   </ul>
@@ -25,5 +31,11 @@ onMounted( async ()=>{
 </template>
 
 <style scoped>
+.my-class {
+  border: solid 4px red;
+}
+.my-other-class {
+  border: solid 4px blue;
+}
 
 </style>
