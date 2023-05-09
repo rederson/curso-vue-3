@@ -1,14 +1,10 @@
-<!-- There are multiple root elements -->
+<!-- There are
+   multiple root elements -->
 <template>
+
 <img :src="imageSrc" alt="" class="my-default-class" :class="{'my-class':is_admin,'my-other-class':!is_admin}" />
-  <Header v-if="showHeader" />
-  <hr />
-
-  <template v-if="showHeader">
-    <Header />
-  </template>
-
-
+  
+<button @click="add('teste')">Clique aqui {{ count }}</button>
   <hr />
 
   <h2>Lista de Users</h2>
@@ -24,19 +20,6 @@
 
 <hr />
 
-<ul>
-    <li v-for="user in users" :key="user.id">
-      {{ user.firstName }}
-      <button v-if="user.is_admin">Change to not admin</button>
-      <button v-else>Change to admin</button>
-    </li>
-  </ul>
-
-
-
-
-
-
 
 </template>
 
@@ -50,6 +33,7 @@ export default {
     return {
       users: [],
       showHeader: false,
+      count:0,
       imageSrc:'https://picsum.photos/200/300',
       //classImage:'my-class'
       is_admin:false,
@@ -68,6 +52,12 @@ export default {
   updated() {
     console.log("upadated");
   },
+  methods:{
+    add(teste){
+      console.log(teste);
+      this.count++;
+    }
+  }
 };
 </script>
 
