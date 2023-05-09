@@ -7,6 +7,12 @@ import { onMounted, reactive, ref } from "vue";
 let users = reactive({users:[]});
 const imageSrc = ref('https://picsum.photos/200/300');
 const is_admin = ref(false);
+const count = ref(0);
+
+function add(teste) {
+  console.log(teste);
+  count.value++
+}
 
 onMounted( async ()=>{
   try {
@@ -20,10 +26,11 @@ onMounted( async ()=>{
 </script>
 <template>
   <h2>Lista de users</h2>
-  <hr />
   
   <img :src="imageSrc" alt="" class="my-default-class" :class="{'my-class':is_admin,'my-other-class':!is_admin}" />
 
+ <button @click="add('teste')">Clique aqui {{ count }}</button>
+ 
   <ul>
     <li v-for="user in users.users" :key="user.id">{{ user.firstName }}</li>
   </ul>
