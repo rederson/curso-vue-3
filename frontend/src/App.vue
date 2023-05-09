@@ -1,4 +1,6 @@
+<!-- There are multiple root elements -->
 <template>
+<img :src="imageSrc" alt="" class="my-default-class" :class="{'my-class':is_admin,'my-other-class':!is_admin}" />
   <Header v-if="showHeader" />
   <hr />
 
@@ -6,11 +8,13 @@
     <Header />
   </template>
 
+
   <hr />
 
   <h2>Lista de Users</h2>
 
   <ul>
+
     <template v-for="user in users" :key="user.id">
       <li v-if="user.is_admin === 1">
         {{ user.firstName }}
@@ -33,6 +37,7 @@
 
 
 
+
 </template>
 
 <script>
@@ -45,6 +50,9 @@ export default {
     return {
       users: [],
       showHeader: false,
+      imageSrc:'https://picsum.photos/200/300',
+      //classImage:'my-class'
+      is_admin:false,
     };
   },
 
@@ -64,4 +72,10 @@ export default {
 </script>
 
 <style scoped>
+.my-class{
+border: solid 4px red;
+}
+.my-other-class {
+  border: solid 4px blue;;
+}
 </style>
