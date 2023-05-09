@@ -4,8 +4,16 @@
 
 <img :src="imageSrc" alt="" class="my-default-class" :class="{'my-class':is_admin,'my-other-class':!is_admin}" />
   
-<button @click="add('teste')">Clique aqui {{ count }}</button>
-  <hr />
+<button @click="count++">Clique aqui {{ count }}</button>
+
+{{ userName }}
+
+<!--<input type="text" @keyup="(event) => {this.count+=Number(event.target.value) }" placeholder="Qualquer coisa" name="" id="">-->
+<!--<input type="text" @keyup="myName" placeholder="Qualquer coisa" name="" id=""></input>  >-->
+<input type="text" v-model="userName" name="" id="">
+
+
+<hr />
 
   <h2>Lista de Users</h2>
 
@@ -34,6 +42,7 @@ export default {
       users: [],
       showHeader: false,
       count:0,
+      userName:'',
       imageSrc:'https://picsum.photos/200/300',
       //classImage:'my-class'
       is_admin:false,
@@ -53,9 +62,11 @@ export default {
     console.log("upadated");
   },
   methods:{
-    add(teste){
-      console.log(teste);
-      this.count++;
+    myName(event){
+      this.userName=event.target.value;
+     // this.count+=Number(event.target.value);
+     // console.log(event.target.value);
+      
     }
   }
 };
