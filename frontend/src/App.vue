@@ -14,6 +14,8 @@
 
 <a href="http://google.com.br" @click.prevent="search">Ir para o google (prevent)</a> <br />
 
+<input type="text" placeholder="Digite algo aqui" @keyup.enter="keyModifier">
+
 {{ age }}
 
 <button @click.prevent.once="age++">Executa 1 vez (once)</button>
@@ -83,6 +85,9 @@ export default {
     },
     search(event){
 console.log('buscou');
+    },
+    keyModifier() {
+      console.log('precionou o enter');
     }
   }
 };
