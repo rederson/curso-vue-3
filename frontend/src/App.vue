@@ -6,6 +6,18 @@
   
 <button @click="count++">Clique aqui {{ count }}</button>
 
+<form action="http://google.com.br">
+  <input type="text" placeholder="Buscar">
+  <!--botão sem prevent--><button type="submit">Buscar</button>
+  <button @click.submit.prevent="search">Buscar</button>
+</form>
+
+<a href="http://google.com.br" @click.prevent="search">Ir para o google (prevent)</a> <br />
+
+{{ age }}
+
+<button @click.prevent.once="age++">Executa 1 vez (once)</button>
+
 {{ userName }}
 
 <!--<input type="text" @keyup="(event) => {this.count+=Number(event.target.value) }" placeholder="Qualquer coisa" name="" id="">-->
@@ -42,6 +54,7 @@ export default {
       users: [],
       showHeader: false,
       count:0,
+      age:40,
       userName:'',
       imageSrc:'https://picsum.photos/200/300',
       //classImage:'my-class'
@@ -67,6 +80,9 @@ export default {
      // this.count+=Number(event.target.value);
      // console.log(event.target.value);
       
+    },
+    search(event){
+console.log('buscou');
     }
   }
 };
