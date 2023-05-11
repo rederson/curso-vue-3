@@ -1,39 +1,20 @@
 <template>
 
-  <input type="text" name="" v-model="userName">
+ <Nav />
 
-<template v-for="user in users" >
-<input type="checkbox" name="" @click="userName =  user.firstName" :checked="userName == user.firstName">{{ user.firstName }}
-</template>
+ <router-view></router-view>
 
-
-  <select name="" v-model="userName">
-    <option :value="user.firstName" v-for="user in users">{{ user.firstName }}</option>
-
-  </select>
-  
 </template>
 
 <script>
-export default {
-data() {
-  return {
-      userName:'Alexandre',
-      users:[
-        {
-          id:1,
-          firstName:'Alexandre'
-        },
-        {
-          id:2,
-          firstName:'João'
-        },
-        {
-          id:1,
-          firstName:'Maria'
-        },
+import Nav from "@/components/Nav.vue";
 
-      ]
+export default {
+  components:{Nav,},
+  data() {
+  
+  return {
+      
   }
 }
 }

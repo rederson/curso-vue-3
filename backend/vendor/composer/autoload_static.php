@@ -113,6 +113,7 @@ class ComposerStaticInita35376189863a84ae8a33b4c74e37a75
         ),
         'L' => 
         array (
+            'Lucascudo\\LaravelPtBRLocalization\\' => 34,
             'League\\MimeTypeDetection\\' => 25,
             'League\\Flysystem\\Local\\' => 23,
             'League\\Flysystem\\' => 17,
@@ -371,6 +372,10 @@ class ComposerStaticInita35376189863a84ae8a33b4c74e37a75
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'Lucascudo\\LaravelPtBRLocalization\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lucascudo/laravel-pt-br-localization/src',
         ),
         'League\\MimeTypeDetection\\' => 
         array (
@@ -3107,6 +3112,7 @@ class ComposerStaticInita35376189863a84ae8a33b4c74e37a75
         'League\\MimeTypeDetection\\GeneratedExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/GeneratedExtensionToMimeTypeMap.php',
         'League\\MimeTypeDetection\\MimeTypeDetector' => __DIR__ . '/..' . '/league/mime-type-detection/src/MimeTypeDetector.php',
         'League\\MimeTypeDetection\\OverridingExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/OverridingExtensionToMimeTypeMap.php',
+        'Lucascudo\\LaravelPtBRLocalization\\LaravelPtBRLocalizationServiceProvider' => __DIR__ . '/..' . '/lucascudo/laravel-pt-br-localization/src/LaravelPtBRLocalizationServiceProvider.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegrationAssertPostConditions' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php',
