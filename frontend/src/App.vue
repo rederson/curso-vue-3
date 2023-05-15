@@ -3,13 +3,6 @@
 
   <router-view></router-view>
 
-  <button @click="count++">Add count - {{ count }}</button>
-  <!--<CountChild v-on:addCount="count++" />-->
-
-  <!--<CountChild v-on:addCount="(value) => count+=value" />-->
-
-    <CountChild v-on:addCount="add" />
-
 </template>
 
 <script setup>
