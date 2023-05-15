@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/users', function () {
     return User::all();
 });
+Route::get('/users/search', function (Request $request) {
+    $user = $request->input('user');
+    return User::where('firstName', 'LIKE', '%'.$user.'%')->get();
+});
+
 
 
 Route::post('/user', function (Request $request) {
