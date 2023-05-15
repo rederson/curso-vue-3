@@ -2,19 +2,13 @@
   <Nav />
 
   <router-view></router-view>
-  <ul>
-    <li v-for="(item,index) in itens" :key="index" ref="item">
-    {{ item.name }}
-    </li>
 
-  </ul>
-
-  <img src="https://picsum.photos/200/300" alt="" id="img" ref="img">
-
+  <input type="text" name="" id="" placeholder="Search" @keyup="search" />
 </template>
 <script>
 import Nav from "@/components/Nav.vue";
 import CountChild from "@/components/CountChild.vue";
+import _ from 'lodash';
 
 export default {
   components: { Nav, CountChild },
@@ -32,12 +26,18 @@ export default {
     };
   },
   mounted(){
-    console.log(this.$refs.img['src']);
+    //console.log(this.$refs.img['src']);
   },
   methods: {
     add(value) {
       this.count += value;
     },
+
+    search: _.debounce(()=>{
+          console.log('search');
+    }, 1000)
+      
+
   },
 };
 </script>
