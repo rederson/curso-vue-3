@@ -1,29 +1,22 @@
 <template>
   <button @click="openModal = true">Open Modal</button>
-  <br>
+  <br />
 
-<template v-if="openModal">
-<Modal>
-
-  <template #header>Header do Slot</template>
-  <template #default>
+  <Modal v-if="openModal" @close="openModal = false">
+    <template #header>Header do modal</template>
+    <template #default>
     <form action="" method="get">
-      <input type="text" placeholder="Email">
-      <input type="text" placeholder="senha">
+      <input type="text" placeholder="Email" />
+      <input type="text" placeholder="senha" />
       <button>Login</button>
     </form>
-    
-    Modal de conteundo default</template>
-  <template #footer>Footer do slot</template>
-
-</Modal>
-</template>
-
-
+  </template>
+  <template #footer>Footer do modal</template>
+  </Modal>
 </template>
 <script setup>
 import { computed, reactive, ref } from "vue";
-import Modal from '@/components/Modal.vue';
+import Modal from "@/components/Modal.vue";
 
 const user = reactive({
   firstName: "Alexandre",
@@ -55,17 +48,16 @@ const fullName = computed(() => {
 });
 
 const usersNotAdmin = computed(() => {
- return users.filter((user) => user.is_admin === 0);
-}) 
+  return users.filter((user) => user.is_admin === 0);
+});
 
 const countComputer = computed(() => {
-  console.log('called computed count');
-  return computedCount.value
-})
+  console.log("called computed count");
+  return computedCount.value;
+});
 
 function countFunction() {
-  console.log('called function count');
-  return functionCount.value
+  console.log("called function count");
+  return functionCount.value;
 }
-
 </script>
