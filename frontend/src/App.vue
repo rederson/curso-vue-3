@@ -3,13 +3,7 @@
 
   <router-view></router-view>
 
-  <img src="https://picsum.photos/200/300" alt="" id="img" ref="img">
-
-  <ul>
-    <li v-for="(product,index) in products" :key="index" id="product" ref="product">
-    {{ product.nome }}
-    </li>
-  </ul>
+  <input type="text" name="" id="" placeholder="Search" @keyup="search">
 
 </template>
 
@@ -17,11 +11,17 @@
 import Nav from '@/components/Nav.vue';
 import CountChild from '@/components/CountChild.vue';
 import { ref, onMounted } from 'vue';
+import _ from 'lodash';
 
 const count = ref(0);
 
 const img = ref(null);
 const product = ref([]);
+
+const search = _.debounce(()=> {
+console.log('search');
+}, 1000);// espera 1 segundo após parar de digitar para enviar a pesquisa
+// já usando throttle no lugar de debounce envia segundo a segundo
 
 const products = ref([
   {
@@ -43,6 +43,7 @@ console.log(product.value);
 function add(value) {
   count.value+=value
 }
+
 </script>
 
 <style scoped>
