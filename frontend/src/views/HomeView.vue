@@ -1,31 +1,27 @@
 <template>
-  <h2>Admin</h2>
-  <!--{{ user.firstName }}  {{ user.lastName }}-->
-  <ul>
-    <template v-for="(user, index) in user" :key="index">
-      <li v-if="user.is_admin">{{ user.firstName }}</li>
-    </template>
-  </ul>
+  <button @click="openModal = true">Abrir Modal</button>
 
-  <h2>Not Admin</h2>
+  <template v-if="openModal">
+    <Modal>
+      <template #header> <h2>Header do Modal</h2>  </template>
 
-  <ul>
-    <li v-for="(user, index) in usersIsNotAdmin" :key="index">
-      {{ user.firstName }}
-    </li>
-  </ul>
+      <template #default>Valor default</template>
 
-  {{ functionCount() }}
-  <button @click="countFunction++">add function</button>
-<br />
-  {{ computedCount }}
-  <button @click="countComputed++">add computed</button>
+      <template #footer>Footer do modal</template>
+    </Modal>
+
+</template>
+
 </template>
 
 <script>
+import Modal from "@/components/Modal.vue";
+
 export default {
+  components: { Modal },
   data() {
     return {
+      openModal: false,
       countComputed: 0,
       countFunction: 0,
       user: [
@@ -64,7 +60,7 @@ export default {
     },
   },
   methods: {
-    functionCount() {     
+    functionCount() {
       console.log("called function");
       return this.countFunction;
     },
