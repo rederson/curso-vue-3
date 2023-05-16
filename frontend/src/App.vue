@@ -3,7 +3,7 @@
 
   <router-view></router-view>
 
-  <input type="text" name="" id="" placeholder="Search" @keyup="search">
+  
 
 </template>
 

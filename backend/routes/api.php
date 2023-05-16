@@ -8,6 +8,14 @@ Route::get('/users', function() {
     return User::all();
 });
 
+//rota da consulta
+Route::get('/users/search', function(Request $request) {
+    $user = $request->input('user');
+
+    return User::where('firstName', 'LIKE', '%'.$user.'%')->get();
+});
+
+
 Route::post('/user', function(Request $request) {
     //return User::all();
     $request->validate([

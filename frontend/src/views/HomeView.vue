@@ -1,63 +1,59 @@
 <template>
-  <button @click="openModal = true">Open Modal</button>
-  <br />
+  <input type="text" name="" id="" placeholder="Search" v-model="userSearch" @keyup="search">
+  <ul>
+    <li v-for="(user,index) in users['users']" :key="index">{{ user.firstName }}  {{ user.lastName }}</li>
+  </ul>
 
-  <Modal v-if="openModal" @close="openModal = false">
-    <template #header>Header do modal</template>
-    <template #default>
-    <form action="" method="get">
-      <input type="text" placeholder="Email" />
-      <input type="text" placeholder="senha" />
-      <button>Login</button>
-    </form>
-  </template>
-  <template #footer>Footer do modal</template>
-  </Modal>
+  <div v-html="userNotFound"></div>
+
+ 
+  
 </template>
 <script setup>
-import { computed, reactive, ref } from "vue";
-import Modal from "@/components/Modal.vue";
+import http from "@/services/http.js";
+import { onMounted, ref, reactive, computed } from "vue";
+import _ from 'lodash';
 
-const user = reactive({
-  firstName: "Alexandre",
-  lastName: "Cardoso",
-});
 
-const openModal = ref(false);
+const users = reactive({users:[]})
+const userSearch = ref();
+// resolver problema sincronismo
+const loading = ref(true);
 
-const computedCount = ref(0);
-const functionCount = ref(0);
+const userNotFound = computed(() => {
+  return (!loading.value && users['users'].length <= 0) ? '<span id="notFound">Nenhum usuário encontrado</span>' : '';
+})
 
-const users = reactive([
-  {
-    firstName: "Alexandre",
-    is_admin: 1,
-  },
-  {
-    firstName: "Maria",
-    is_admin: 0,
-  },
-  {
-    firstName: "João",
-    is_admin: 1,
-  },
-]);
+onMounted(async () =>{
+  try {
+    const {data} = await http.get('/api/users');
+    //console.log(data);
+    users['users'] = data;
+    loading.value = false; // desabilita exibição async do tamplate referente a usuario não encontrado
+  } catch (error) {
+    console.log(error.response.data);
+  }
+})
 
-const fullName = computed(() => {
-  return user.firstName + " " + user.lastName;
-});
-
-const usersNotAdmin = computed(() => {
-  return users.filter((user) => user.is_admin === 0);
-});
-
-const countComputer = computed(() => {
-  console.log("called computed count");
-  return computedCount.value;
-});
-
-function countFunction() {
-  console.log("called function count");
-  return functionCount.value;
+const search = _.debounce(async () => {
+try {
+  const {data} = await http.get('api/users/search', {
+    params:{
+      user:userSearch.value
+    }
+  })
+  users['users'] = data;
+  console.log(data);
+} catch (error) {
+  console.log(error.response.data);
 }
+  //console.log('serching '+ userSearch.value);
+},1000)
+
 </script>
+
+<style>
+#notFound {
+  color: red;
+  }
+</style>
