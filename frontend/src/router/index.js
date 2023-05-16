@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { Bootstrap4Pagination } from 'laravel-vue-pagination';
+import { Bootstrap5Pagination } from 'laravel-vue-pagination';
+import { TailwindPagination } from 'laravel-vue-pagination';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
