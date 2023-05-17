@@ -1,20 +1,7 @@
 <template>
-  <!--<Nav />-->
+  <Nav /> <br>
+  <router-view></router-view>
 
-  <!-- <router-view></router-view> -->
-
-<button @click="addItem">Add</button>
-
-<ul>
-  <li v-for="(item, index) in items" :key="item">
-    {{ item }}
-    <input placeholder="Qualquer coisa">
-    <button v-on:click="remove(index)">Remove</button>
-   
-   
-
-  </li>
-</ul>
 
 </template>
 
@@ -65,4 +52,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

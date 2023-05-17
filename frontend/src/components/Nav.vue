@@ -1,7 +1,7 @@
 <template>
-  <router-link to="/">Home</router-link>
-  <router-link to="/about">About</router-link>
-  <router-link to="/user/create">User Create</router-link>
+  <router-link class="link" to="/">Home</router-link>
+  <router-link class="link" to="/about">About</router-link>
+  <router-link class="link" to="/user/create">User Create</router-link>
   
 </template>
 
@@ -12,4 +12,9 @@ export default {
 </script>
 
 <style>
+
+  .link {
+    color: blue;
+    margin-right: 20px;
+  }
 </style>
