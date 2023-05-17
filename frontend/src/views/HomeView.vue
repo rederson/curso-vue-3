@@ -16,6 +16,8 @@
   <Bootstrap5Pagination
     :data="users['users']"
     @pagination-change-page="getUsers"
+    :limit="1"
+    :show-disable="true"
   >
     <template #prev-nav>
       <span>&lt; Anterior</span>
