@@ -45,7 +45,6 @@ export default {
       users: [],
       loading: true,
       searchInput: '',
-      searched: false,
     }
   },
 
@@ -63,7 +62,7 @@ export default {
 
   methods: {
     handlePagination(page) {
-      return this.searched ? this.searchUsers(page) : this.getUsers(page);
+      return this.searchInput ? this.searchUsers(page) : this.getUsers(page);
     },
 
     async getUsers(page = 1) {
@@ -89,10 +88,8 @@ export default {
         console.log(this.searchInput, data);
 
         if (!this.searchInput) {
-          this.searched = false;
           this.getUsers();
         } else {
-          this.searched = true;
           //console.log(data);
           this.users = data;
         }
