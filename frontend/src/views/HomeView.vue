@@ -15,9 +15,11 @@
 
   <Bootstrap5Pagination
     :data="users['users']"
-    @pagination-change-page="getUsers"
-    :limit="1"
-    :show-disable="true"
+    @pagination-change-page="handleEventPagination"
+    :limit="2"
+    :show-disabled="true"
+    size="default"
+    align="center"
   >
     <template #prev-nav>
       <span>&lt; Anterior</span>
@@ -37,12 +39,17 @@ import { Bootstrap5Pagination } from "laravel-vue-pagination";
 
 const users = reactive({ users: [] });
 const userSearch = ref();
+const searched = ref(true);
 // resolver problema sincronismo
 const loading = ref(true);
 
+function handleEventPagination(page) {
+  return searched.value ? searchUser(page) : getUsers(page);
+}
+
 async function getUsers(page = 1) {
   try {
-    const { data } = await http.get("/api/users?page="+Number(page));
+    const { data } = await http.get("/api/users?page=" + Number(page));
 
     users["users"] = data;
     //console.log(data);
@@ -53,7 +60,7 @@ async function getUsers(page = 1) {
 }
 
 const userNotFound = computed(() => {
-  return !loading.value && users["users"].length <= 0
+  return !loading.value && users["users"].data.length <= 0
     ? '<span id="notFound">Nenhum usuário encontrado</span>'
     : "";
 });
@@ -62,19 +69,31 @@ onMounted(() => {
   getUsers();
 });
 
-const search = _.debounce(async () => {
+async function searchUser(page=1) {
   try {
-    const { data } = await http.get("api/users/search", {
+    const { data } = await http.get("api/users/search?page="+Number(page), {
       params: {
         user: userSearch.value,
       },
     });
-    users["users"] = data;
-    console.log(data);
+
+    if (!userSearch.value) {
+      searched.value = false;
+      getUsers();
+      return;
+    } 
+      searched.value = true;
+      users['users'] = data;
+      //console.log(data);
+    
   } catch (error) {
     console.log(error.response.data);
   }
   //console.log('serching '+ userSearch.value);
+}
+
+const search = _.debounce( () => {
+  searchUser();
 }, 1000);
 </script>
 
