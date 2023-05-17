@@ -39,12 +39,11 @@ import { Bootstrap5Pagination } from "laravel-vue-pagination";
 
 const users = reactive({ users: [] });
 const userSearch = ref();
-const searched = ref(true);
 // resolver problema sincronismo
 const loading = ref(true);
 
 function handleEventPagination(page) {
-  return searched.value ? searchUser(page) : getUsers(page);
+  return userSearch.value ? searchUser(page) : getUsers(page);
 }
 
 async function getUsers(page = 1) {
@@ -78,11 +77,9 @@ async function searchUser(page=1) {
     });
 
     if (!userSearch.value) {
-      searched.value = false;
       getUsers();
       return;
     } 
-      searched.value = true;
       users['users'] = data;
       //console.log(data);
     
