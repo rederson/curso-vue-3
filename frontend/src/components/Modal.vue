@@ -1,10 +1,8 @@
 <template>
-  <slot name="header" />
-
-  <slot />
-  <slot name="footer" />
-
-
+  <div>
+    <h2>Modal</h2>
+    <slot></slot>
+  </div>
 </template>
 
 <script>
