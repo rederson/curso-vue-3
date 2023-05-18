@@ -1,62 +1,54 @@
 <template>
-  <div style="padding: 10px;">
-  <input style="margin-right: 10px;" type="text" v-model="user.firstName" placeholder="First Name">
-  <input type="text" v-model="user.lastName" placeholder="Last Name">
+  <div>
+    <CurrencyInput type="text" v-model="dolar" placeholder="Dolar" :options="{ currency: 'USD'}" />
   </div>
   <hr>
-  <div>
-    <ul>
-      <li v-for="item in items" :key="item.id">
-        {{ item.name }} 
-        <input type="text" v-model="item.name">
-     </li>
-    </ul>
-  </div>
+  <ul>
+    <li>{{ dolarTodayValue }}</li>
+    <li>{{dolarToReaisValue}}</li>
+  </ul>
+  
 </template>
 <script setup>
-import { ref, watch, reactive } from 'vue';
+import { ref, watch, reactive, computed, onMounted } from 'vue';
+import http from '../services/http';
+import format from '../services/format';
+import CurrencyInput from '@/components/CurrencyInput.vue';
 
-const firstName = ref('')
-const lastName = ref('')
+const dolar = ref(0);
+const dolarToday = ref(0);
+const dolarToReal = ref(0);
 
-const user = reactive({
-  firstName:'',
-  lastName:''
+const dolarToReaisValue =  computed(() => {
+  return `O valor em reais de ${ format(dolar.value, 'en-US','USD')} é: ${format(dolarToReal.value, 'pt-BR', 'BRL')}`; 
+});
+
+const dolarTodayValue =  computed(() => {
+  return `O dolar hoje está em: ${ format(dolarToday.value, 'en-US','USD')} `
 })
 
-
-const items = reactive([
-  {
-    id:1,
-    name: 'Alexandre'
-},
-{
-    id:2,
-    name: 'João'
-},
-])
-
-/** exemplo watch
-//watch([firstName, lastName], ([valueFirstName, valueLastName], [oldValueFirstName, oldValueLastName]) => {
-//  console.log('new => '+ valueFirstName, 'old => '+ oldValueFirstName);
-//} )
-watch(
-  user, // monitorar todos campos
-  (value) => {
-    console.log(value.firstName);
+onMounted(async ()=>{
+  try {
+    const dolar =  await getDolar();
+    dolarToday.value = dolar['high'];
+  } catch (error) {
+    console.log(error.response.data);
   }
-  )
-**/
-watch(
-  items, 
-  (value) => {
-    value.forEach((item) => {
-      if (!Number.isInteger(Number(item))) {
-        console.log('not a number '+item.name);
-      }
-    })
-  }
-)
+  
+})
+
+async function getDolar(typeCurrency = 'USD-BRL'){
+  const {data} = await http.get('https://economia.awesomeapi.com.br/json/last/'+typeCurrency);
+  const currency = typeCurrency.split('-').join('');
+  return data[currency];
+}
+// fazer o calculo dos valores com watch
+watch(dolar, (value)=> {
+  //console.log(value, Number(dolarToday.value));
+  dolarToReal.value = value * Number(dolarToday.value);
+  console.log(dolarToReal.value);
+})
+
 </script>
 
 <style scoped>
