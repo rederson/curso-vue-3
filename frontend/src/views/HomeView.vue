@@ -1,101 +1,64 @@
 <template>
-  <input
-    type="text"
-    name=""
-    id=""
-    placeholder="Search"
-    v-model="userSearch"
-    @keyup="search"
-  />
-  <ul>
-    <li v-for="(user, index) in users['users'].data" :key="index">
-      {{ user.firstName }} {{ user.lastName }}
-    </li>
-  </ul>
-
-  <Bootstrap5Pagination
-    :data="users['users']"
-    @pagination-change-page="handleEventPagination"
-    :limit="2"
-    :show-disabled="true"
-    size="default"
-    align="center"
-  >
-    <template #prev-nav>
-      <span>&lt; Anterior</span>
-    </template>
-    <template v-slot:next-nav>
-      <span>Próximo &gt;</span>
-    </template>
-  </Bootstrap5Pagination>
-
-  <div v-html="userNotFound"></div>
+  <div style="padding: 10px;">
+  <input style="margin-right: 10px;" type="text" v-model="user.firstName" placeholder="First Name">
+  <input type="text" v-model="user.lastName" placeholder="Last Name">
+  </div>
+  <hr>
+  <div>
+    <ul>
+      <li v-for="item in items" :key="item.id">
+        {{ item.name }} 
+        <input type="text" v-model="item.name">
+     </li>
+    </ul>
+  </div>
 </template>
 <script setup>
-import http from "@/services/http.js";
-import { onMounted, ref, reactive, computed } from "vue";
-import _ from "lodash";
-import { Bootstrap5Pagination } from "laravel-vue-pagination";
+import { ref, watch, reactive } from 'vue';
 
-const users = reactive({ users: [] });
-const userSearch = ref();
-// resolver problema sincronismo
-const loading = ref(true);
+const firstName = ref('')
+const lastName = ref('')
 
-function handleEventPagination(page) {
-  return userSearch.value ? searchUser(page) : getUsers(page);
-}
+const user = reactive({
+  firstName:'',
+  lastName:''
+})
 
-async function getUsers(page = 1) {
-  try {
-    const { data } = await http.get("/api/users?page=" + Number(page));
 
-    users["users"] = data;
-    //console.log(data);
-    loading.value = false; // desabilita exibição async do tamplate referente a usuario não encontrado
-  } catch (error) {
-    console.log(error.response.data);
+const items = reactive([
+  {
+    id:1,
+    name: 'Alexandre'
+},
+{
+    id:2,
+    name: 'João'
+},
+])
+
+/** exemplo watch
+//watch([firstName, lastName], ([valueFirstName, valueLastName], [oldValueFirstName, oldValueLastName]) => {
+//  console.log('new => '+ valueFirstName, 'old => '+ oldValueFirstName);
+//} )
+watch(
+  user, // monitorar todos campos
+  (value) => {
+    console.log(value.firstName);
   }
-}
-
-const userNotFound = computed(() => {
-  return !loading.value && users["users"].data.length <= 0
-    ? '<span id="notFound">Nenhum usuário encontrado</span>'
-    : "";
-});
-
-onMounted(() => {
-  getUsers();
-});
-
-async function searchUser(page=1) {
-  try {
-    const { data } = await http.get("api/users/search?page="+Number(page), {
-      params: {
-        user: userSearch.value,
-      },
-    });
-
-    if (!userSearch.value) {
-      getUsers();
-      return;
-    } 
-      users['users'] = data;
-      //console.log(data);
-    
-  } catch (error) {
-    console.log(error.response.data);
+  )
+**/
+watch(
+  items, 
+  (value) => {
+    value.forEach((item) => {
+      if (!Number.isInteger(Number(item))) {
+        console.log('not a number '+item.name);
+      }
+    })
   }
-  //console.log('serching '+ userSearch.value);
-}
-
-const search = _.debounce( () => {
-  searchUser();
-}, 1000);
+)
 </script>
 
-<style>
-#notFound {
-  color: red;
-}
+<style scoped>
+
 </style>
