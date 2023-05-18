@@ -1,54 +1,79 @@
 <template>
   <div>
-    <CurrencyInput type="text" v-model="dolar" placeholder="Dolar" :options="{ currency: 'USD'}" />
+      <input style=" ; margin: 10px 10px;" type="text" v-model="user.firstName" placeholder="First Name">
+      <input type="text" v-model="lastName" placeholder="Last Name">
   </div>
-  <hr>
+ <div>
   <ul>
-    <li>{{ dolarTodayValue }}</li>
-    <li>{{dolarToReaisValue}}</li>
+    <li v-for="item in items" :key="item.id">{{ item.name }} <input type="text" v-model="item.name"></li>
   </ul>
-  
+ </div>
+ <div>
+  <span>Conteudo do span</span>
+ </div>
 </template>
 <script setup>
-import { ref, watch, reactive, computed, onMounted } from 'vue';
-import http from '../services/http';
-import format from '../services/format';
-import CurrencyInput from '@/components/CurrencyInput.vue';
+import { ref, watch, reactive, computed, onMounted, watchEffect } from 'vue';
 
-const dolar = ref(0);
-const dolarToday = ref(0);
-const dolarToReal = ref(0);
+const firstName = ref('');
+const lastName = ref('');
+const span = ref(null);
 
-const dolarToReaisValue =  computed(() => {
-  return `O valor em reais de ${ format(dolar.value, 'en-US','USD')} é: ${format(dolarToReal.value, 'pt-BR', 'BRL')}`; 
+const user = reactive({
+  firstName:'',
+  lastName:''
 });
 
-const dolarTodayValue =  computed(() => {
-  return `O dolar hoje está em: ${ format(dolarToday.value, 'en-US','USD')} `
-})
-
-onMounted(async ()=>{
-  try {
-    const dolar =  await getDolar();
-    dolarToday.value = dolar['high'];
-  } catch (error) {
-    console.log(error.response.data);
+const items = reactive([
+  {
+    id: 1,
+    name: 'Alexandre'
+  },
+  {
+    id: 2,
+    name: 'João'
+  },
+  {
+    id: 3,
+    name: 'Maria'
   }
-  
-})
+]);
 
-async function getDolar(typeCurrency = 'USD-BRL'){
-  const {data} = await http.get('https://economia.awesomeapi.com.br/json/last/'+typeCurrency);
-  const currency = typeCurrency.split('-').join('');
-  return data[currency];
-}
-// fazer o calculo dos valores com watch
-watch(dolar, (value)=> {
-  //console.log(value, Number(dolarToday.value));
-  dolarToReal.value = value * Number(dolarToday.value);
-  console.log(dolarToReal.value);
-})
+//watch(lastName, (value, oldValue)=> {
+// console.log(value, oldValue);
+// })
 
+//watch([firstName, lastName], ([valueFirstName, valueLastName], oldValue)=> {
+ //console.log(valueFirstName, valueLastName);
+ //console.log('observando watch');
+//});
+
+//watchEffect(()=>{
+ // console.log(firstName.value, lastName.value);
+//})
+
+//watchEffect(()=>{
+ //console.log(items);
+ //items.forEach((item) => {
+ // console.log(item.name);
+// })
+//})
+onMounted(()=> {
+  console.log(span.value.textContent);
+});
+
+watch(
+  () => user.firstName,
+  (value, oldValue) => {
+    console.log(value, oldValue);
+  })
+
+watchEffect(()=>{
+  //console.log('observando watch effect');
+  // Não funciona porque carrega antes do carregamento do DOM
+  //console.log(spán.value.textContent); 
+  console.log(user.firstName.value);
+});
 </script>
 
 <style scoped>
