@@ -1,79 +1,33 @@
 <template>
-  <div>
-      <input style=" ; margin: 10px 10px;" type="text" v-model="user.firstName" placeholder="First Name">
-      <input type="text" v-model="lastName" placeholder="Last Name">
-  </div>
- <div>
-  <ul>
-    <li v-for="item in items" :key="item.id">{{ item.name }} <input type="text" v-model="item.name"></li>
-  </ul>
- </div>
- <div>
-  <span>Conteudo do span</span>
- </div>
+  <button @click="showSomething()">Show</button>
+ 
+ <input type="text" v-if="showElement" ref="inputElement">
 </template>
 <script setup>
-import { ref, watch, reactive, computed, onMounted, watchEffect } from 'vue';
 
-const firstName = ref('');
-const lastName = ref('');
-const span = ref(null);
+import { nextTick, ref } from "vue";
 
-const user = reactive({
-  firstName:'',
-  lastName:''
-});
+const showElement = ref(false);
+const inputElement = ref(null);
 
-const items = reactive([
-  {
-    id: 1,
-    name: 'Alexandre'
-  },
-  {
-    id: 2,
-    name: 'João'
-  },
-  {
-    id: 3,
-    name: 'Maria'
-  }
-]);
+async function showSomething() {
+  showElement.value = true;
 
-//watch(lastName, (value, oldValue)=> {
-// console.log(value, oldValue);
-// })
+  setTimeout(() => {
+      inputElement.value.focus()
 
-//watch([firstName, lastName], ([valueFirstName, valueLastName], oldValue)=> {
- //console.log(valueFirstName, valueLastName);
- //console.log('observando watch');
-//});
+        console.log(inputElement.value);
+  }, 100);
 
-//watchEffect(()=>{
- // console.log(firstName.value, lastName.value);
-//})
+await nextTick(()=>{
+  inputElement.value.focus()
+  //console.log(inputElement.value);
+  console.log('focus');
+})
 
-//watchEffect(()=>{
- //console.log(items);
- //items.forEach((item) => {
- // console.log(item.name);
-// })
-//})
-onMounted(()=> {
-  console.log(span.value.textContent);
-});
+  console.log('carregou');
+}
 
-watch(
-  () => user.firstName,
-  (value, oldValue) => {
-    console.log(value, oldValue);
-  })
-
-watchEffect(()=>{
-  //console.log('observando watch effect');
-  // Não funciona porque carrega antes do carregamento do DOM
-  //console.log(spán.value.textContent); 
-  console.log(user.firstName.value);
-});
 </script>
 
 <style scoped>
