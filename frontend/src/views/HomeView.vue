@@ -1,28 +1,33 @@
 <template>
-  <button @click="increment" >Add</button>
-  <!-- Posso criar o metodo direto no evento do botão como no vue-->
-  <button @click="$store.commit('increment')" >Add Event button</button>
+  <button @click="increment(10)" >Add Event button</button>
 
-  {{ $store.state.count }}
+  {{ count }}
 
   <hr>
 
-  {{ $store.getters.getCounter }}
+  {{ getCounter }}
 </template>
 
 <script>
 
+import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
+
 export default {
 
+computed:{
+  ...mapState(['count']),
+  ...mapGetters(['getCounter'])
+}, 
 
-  methods:{
-    increment(){
-      //this.$store.dispatch('increment'); // usa o dispatch se tiver action
-      // quando não houver action pode comitar direto a mutation
-      this.$store.commit('increment');
-    }
+/* com actions se faz desse modo com spreed (...)
+methods:{
+  //...mapActions(['increment']),
+  //...mapMutations(['increment']),
+  increment(){
+    console.log({...mapActions(['increment', 'teste'])});
   }
-  
+  */
+ methods:mapMutations(['increment']) // se não usar actions trabalha assim
   
 };
 </script>

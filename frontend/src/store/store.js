@@ -6,12 +6,15 @@ const store = createStore({
     },
     mutations:{
         increment(state,payload){
-            state.count++;
+            state.count+=payload;
         }
     },
     actions:{
         increment(state,payload){
             state.commit('increment');
+        },
+        teste(state,payload){
+            console.log('teste');
         }
     },
     getters:{
