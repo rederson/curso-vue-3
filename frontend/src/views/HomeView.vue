@@ -1,26 +1,31 @@
 <template>
 <div>
-  <!-- View -->
   <button @click="increment" >Add</button>
-   {{ count }}
+  
+  <br /> ou <br />
+  <button @click="store.dispatch('increment')"> Add com função no botão</button>
+  <hr>
+  <br /> ou <br />
+  <button @click="store.commit('increment',10)"> Add com função no botão direto mutations</button>
+  <hr>
+   {{ store.state.count }}
+
+   <hr>
+   {{ store.getters.getCounter }}
 </div>
 
- 
-  
 </template>
 
 
 <script setup>
-//state
-import { ref } from "vue";
+import { useStore } from "vuex";
 
+const store = useStore();
 
-const count = ref(0);
+function increment(){
+  store.dispatch('increment');
+}
 
-// action
-function increment() {
-  count.value++;
-} 
 </script>
 
 <style>
