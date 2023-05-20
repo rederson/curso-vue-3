@@ -1,31 +1,26 @@
 <template>
-  <div>
-  <button @click="increment()" >Add</button> <br>
-  {{ count }}
-  </div>
-<hr>
 <div>
-  <ul>
-    <li v-for="(user, index) in users['users']" :key="index" >{{ user.firstName }}</li>
-  </ul>
+  <!-- View -->
+  <button @click="increment" >Add</button>
+   {{ count }}
 </div>
+
  
+  
 </template>
 
 
 <script setup>
-import { onMounted } from "vue";
-import {useCount} from '@/composables/count.js';
-import { useUsers } from "@/composables/users.js";
+//state
+import { ref } from "vue";
 
-const {count, increment} = useCount();
 
-const {users} = useUsers();
+const count = ref(0);
 
-onMounted( () => {
-  console.log('onMounted no componente');
-})
-
+// action
+function increment() {
+  count.value++;
+} 
 </script>
 
 <style>
