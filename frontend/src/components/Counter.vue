@@ -1,6 +1,7 @@
 <template>
     <div>
-        {{  store.state.count}}
+        {{  store.state.counter.count }}
+     
     </div>
 </template>
 
